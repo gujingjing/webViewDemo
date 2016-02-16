@@ -21,6 +21,8 @@ import butterknife.OnClick;
 
 /**
  * http://blog.csdn.net/dacainiao007/article/details/21176993
+ *
+ * http://blog.csdn.net/developer_jiangqq/article/details/49687613这个是相当好的一个demo
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initWebView();
     }
-    public void initWebView(){
+
+    public void initWebView() {
         WebSettings webSettings = myWebView.getSettings();
         //设置是否保存密码
         webSettings.setSavePassword(false);
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         //使用localStorage则必须打开 这个主要是用在html5中的本地存储。
         webSettings.setDomStorageEnabled(true);
         webSettings.setSaveFormData(false);
+
         //Webview与js的双向交互才是android的webview强大所在(因为安全问题在API17之后以取消) ,可以暂不关心
 //        myWebView.addJavascriptInterface(new DemoJavaScriptInterface(), "chen");
 
@@ -86,8 +90,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    @OnClick({R.id.myButton})void onclick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.myButton})
+    void onclick(View view) {
+        switch (view.getId()) {
             case R.id.myButton:
                 myWebView.reload();
                 break;
@@ -124,19 +130,32 @@ public class MainActivity extends AppCompatActivity {
             result.confirm();
             return true;
         }
+
+        /**
+         * 网页加载标题回调
+         * @param view
+         * @param title
+         */
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            Log.d("zttjiangqq", "当前网页标题为:" + title);
+        //            wv_tv_title.setText(title);
+        }
+
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            if(newProgress==100){
+            if (newProgress == 100) {
                 myProgressBar.setVisibility(View.INVISIBLE);
                 myProgressBar.setProgress(newProgress);
-            }else{
+            } else {
                 myProgressBar.setVisibility(View.VISIBLE);
                 myProgressBar.setProgress(newProgress);
             }
         }
     }
-    public class MyWebViewClient extends WebViewClient{
+
+    public class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url); //在当前的webview中跳转到新的url

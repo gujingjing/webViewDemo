@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         //设置支持缩放
         webSettings.setBuiltInZoomControls(true);
 
+//        在window.navigator.userAgent中添加字符串app/1yd_ios和app/1yd_android
+//        webSettings.setUserAgentString();//可以给后端设置参数
+
         myWebView.setWebChromeClient(new MyWebChromeClient());
         //使用默认的webView加载url时---重写shouldOverrideUrlLoading方法
         myWebView.setWebViewClient(new MyWebViewClient());
